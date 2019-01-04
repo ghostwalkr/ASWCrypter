@@ -56,13 +56,17 @@ cd $getPATH && rm $getPATH/buildFrag > /dev/null 2>&1
 # exit ASWCrypter.sh
 echo "[+] Exit Shellcode Generator..."
 sleep 1
-if [ "$distribution" = "Kali" ]; then
-echo "$CYAN[✔] Stop postgresql service..        [$GREEN OK $CYAN]$RESTORE"
+read -p "Stop MSFconsole and Postgresql Services?(y/n) " stop
+if [ $stop = "y" ]
+then
+  if [ "$distribution" = "Kali" ]; then
+  echo "$CYAN[✔] Stop postgresql service..        [$GREEN OK $CYAN]$RESTORE"
 
-service postgresql stop > /dev/null 2>&1
-else
-echo "$CYAN[✔] Stop metasploit service..        [$GREEN OK $CYAN]$RESTORE"
-/etc/init.d/metasploit stop > /dev/null 2>&1
+  service postgresql stop > /dev/null 2>&1
+  else
+  echo "$CYAN[✔] Stop metasploit service..        [$GREEN OK $CYAN]$RESTORE"
+  /etc/init.d/metasploit stop > /dev/null 2>&1
+  fi
 fi
 cd $getPATH
 cd ..
@@ -219,14 +223,19 @@ fi
  
 ASWexit () {
 
-echo "$CYAN[✔] Stoping Services...        [$GREEN OK $CYAN]$RESTORE"
-sleep 1
-if [ "$distribution" = "Kali" ]; then
-service postgresql stop > /dev/null 2>&1
-service apache2 stop > /dev/null 2>&1
-else
-/etc/init.d/metasploit stop > /dev/null 2>&1
-/etc/init.d/apache2 stop  > /dev/null 2>&1
+echo Would you like to stop metasploit, apache2 and postgresql?
+read -p "Stop Services? (y/n) " exit
+if [ $exit = "y" ]
+then 
+  echo "$CYAN[✔] Stoping Services...        [$GREEN OK $CYAN]$RESTORE"
+  sleep 1
+  if [ "$distribution" = "Kali" ]; then
+  service postgresql stop > /dev/null 2>&1
+  service apache2 stop > /dev/null 2>&1
+  else
+  /etc/init.d/metasploit stop > /dev/null 2>&1
+  /etc/init.d/apache2 stop  > /dev/null 2>&1
+  fi
 fi
 cd $getPATH && rm $getPATH/Base64 > /dev/null 2>&1 && rm $getPATH/shellWithNull > /dev/null 2>&1 && rm $getPATH/output/chars.raw > /dev/null 2>&1 && rm $getPATH/PayloadNametemp.hta > /dev/null 2>&1 && rm $getPATH/buildFrag > /dev/null 2>&1 && rm $getPATH/fragFile > /dev/null 2>&1 
 cd $getPATH && rm $getPATH/fragFile > /dev/null 2>&1
